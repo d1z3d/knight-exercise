@@ -9,6 +9,7 @@ public class Sword extends Ammunition {
         super();
     }
 
+    @Override
     public String getDefaultValue() {
         return "Sword: " + defaultValue;
     }

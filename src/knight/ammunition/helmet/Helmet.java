@@ -9,6 +9,7 @@ public class Helmet extends Ammunition {
         super();
     }
 
+    @Override
     public String getDefaultValue() {
         return "Helmet: " + defaultValue;
     }

@@ -1,117 +1,85 @@
 package utils;
 
-import knight.ammunition.helmet.Helmet;
-import knight.ammunition.sword.Sword;
+import knight.Knight;
+import utils.menu.Menu;
 
 import java.util.Scanner;
 
 public class Utils {
-    public static void printKnightStats(Helmet knightHelmet, Sword knightSword) {
-        try {
-            System.out.println("Ammunition cost: " + (knightHelmet.getCost() + knightSword.getCost()));
-            System.out.println("Ammunition weight: " + (knightHelmet.getWeight() + knightSword.getCost()));
-            System.out.println("Ammunition damage: " + (knightHelmet.getDamage() + knightSword.getDamage()));
-            System.out.println("Ammunition protection: " + (knightHelmet.getProtection() + knightSword.getProtection()));
-            System.out.println("");
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println(e);
-        }
+    public static void printKnightStats(Knight knight) {
+        knight.showStats();
+        loader();
     }
 
-    public static void showAmmunition(Helmet knightHelmet, Sword knightSword) {
-        try {
-            String showSword = (knightSword.getCost() + knightSword.getDamage() + knightSword.getWeight()) > 0 ? showSword(knightSword) : knightSword.getDefaultValue();
-            System.out.println(showSword);
-
-            String showHelmet = (knightHelmet.getCost() + knightSword.getProtection() + knightSword.getWeight()) > 0 ? showHelmet(knightHelmet) : knightHelmet.getDefaultValue();
-            System.out.println(showHelmet);
-
-            System.out.println("");
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println(e);
-        }
-    }
-
-    public static void equipAmmunition(Scanner userInput, Helmet knightHelmet, Sword knightSword) {
-        System.out.println("What kind of ammunition do you want to equip?");
-        System.out.println("1. ClassesEquipment.Sword");
-        System.out.println("2. ClassesEquipment.Helmet");
+    public static void showAmmunition(Knight knight) {
         System.out.println("");
-        System.out.println("Choose option and press Enter:");
+        String swordToShow = (knight.sword.getCost() + knight.sword.getDamage() + knight.sword.getWeight()) > 0 ? knight.showSword() : knight.sword.getDefaultValue();
+        System.out.println(swordToShow);
 
+        String helmetToShow = (knight.helmet.getCost() + knight.helmet.getProtection() + knight.helmet.getWeight()) > 0 ? knight.showHelmet() : knight.helmet.getDefaultValue();
+        System.out.println(helmetToShow);
+
+        loader();
+    }
+
+    public static void equipAmmunition(Scanner userInput, Knight knight) {
+        Menu.showOutfitMenu();
         int userChoose = userInput.nextInt();
 
-        //наверно можно сделать IEquip. хз как сделать через интерфейс
         switch (userChoose) {
             case 1:
-                equipSword(userInput, knightSword);
+                equipSword(userInput, knight);
                 break;
             case 2:
-                equipHelmet(userInput, knightHelmet);
+                equipHelmet(userInput, knight);
                 break;
         }
     }
 
-    private static void equipSword(Scanner userInput, Sword knightSword) {
-        try {
-            System.out.println("Input sword weight:");
-            int selectedSwordWeight = userInput.nextInt();
-            knightSword.setWeight(selectedSwordWeight);
+    private static void equipSword(Scanner userInput, Knight knight) {
 
-            System.out.println("Input sword cost:");
-            int selectedSwordCost = userInput.nextInt();
-            knightSword.setCost(selectedSwordCost);
+        //Пользователь выбирает weight
+        System.out.println("Input sword weight:");
+        int selectedSwordWeight = userInput.nextInt();
 
-            System.out.println("Input sword damage:");
-            int selectedSwordDamage = userInput.nextInt();
-            knightSword.setDamage(selectedSwordDamage);
-            System.out.println("");
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println(e);
-        }
+        //Пользователь выбирает cost
+        System.out.println("Input sword cost:");
+        int selectedSwordCost = userInput.nextInt();
+
+        //Пользователь выбариает damage
+        System.out.println("Input sword damage:");
+        int selectedSwordDamage = userInput.nextInt();
+
+        knight.equipSword(selectedSwordWeight, selectedSwordCost, selectedSwordDamage);
+
+        loader();
     }
-    private static void equipHelmet(Scanner userInput, Helmet knightHelmet) {
-        try {
-            System.out.println("Input helmet weight:");
-            int selectedHelmetWeight = userInput.nextInt();
-            knightHelmet.setWeight(selectedHelmetWeight);
+    private static void equipHelmet(Scanner userInput, Knight knight) {
+        System.out.println("Input helmet weight:");
+        int selectedHelmetWeight = userInput.nextInt();
 
-            System.out.println("Input helmet cost:");
-            int selectedHelmetCost = userInput.nextInt();
-            knightHelmet.setCost(selectedHelmetCost);
+        System.out.println("Input helmet cost:");
+        int selectedHelmetCost = userInput.nextInt();
 
-            System.out.println("Input helmet protection:");
-            int selectedHelmetProtection = userInput.nextInt();
-            knightHelmet.setProtection(selectedHelmetProtection);
-            System.out.println("");
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println(e);
-        }
+        System.out.println("Input helmet protection:");
+        int selectedHelmetProtection = userInput.nextInt();
+
+        knight.equipHelmet(selectedHelmetWeight, selectedHelmetCost, selectedHelmetProtection);
+        loader();
     }
 
-    public static void showMenu() {
-        System.out.println("Menu:");
-        System.out.println("1. Print knight stats");
-        System.out.println("2. Show ammunition");
-        System.out.println("3. Equip ammunition");
-        System.out.println("6. Exit");
+    private static void loader(){
         System.out.println("");
-        System.out.println("Choose option and press Enter:");
-    }
-
-    private static String showSword(Sword knightSword) {
-         return "ClassesEquipment.Sword{damage=" + knightSword.getDamage() +
-                ", weight=" + knightSword.getWeight() +
-                ", cost=" + knightSword.getCost() + "}";
-    }
-
-    private static String showHelmet(Helmet knightHelmet) {
-        return "ClassesEquipment.Helmet{protection=" + knightHelmet.getProtection() +
-                ", weight=" + knightHelmet.getWeight() +
-                ", cost=" + knightHelmet.getCost() + "}";
+        for (int i = 0; i < 3; i++) {
+            try {
+                System.out.print(".");
+                Thread.sleep(750);
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+        }
+        for (int i = 0; i < 2; i++) {
+            System.out.println("");
+        }
     }
 }

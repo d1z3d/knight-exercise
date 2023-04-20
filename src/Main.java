@@ -1,4 +1,6 @@
 import knight.Knight;
+import utils.menu.Menu;
+
 import java.util.Scanner;
 
 import static utils.Utils.*;
@@ -14,18 +16,18 @@ public class Main {
         Knight knight = new Knight();
 
         do {
-            showMenu();
+            Menu.showGlobalMenu();
             userChoose = userInput.nextInt();
 
             switch(userChoose) {
                 case 1:
-                    printKnightStats(knight.helmet, knight.sword);
+                    printKnightStats(knight);
                     continue;
                 case 2:
-                    showAmmunition(knight.helmet, knight.sword);
+                    showAmmunition(knight);
                     continue;
                 case 3:
-                    equipAmmunition(userInput, knight.helmet, knight.sword);
+                    equipAmmunition(userInput, knight);
                     continue;
                 case 6:
                     globalState = false;

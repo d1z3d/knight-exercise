@@ -1,6 +1,6 @@
 package knight.ammunition;
 
-public class Ammunition {
+public abstract class Ammunition {
     private int weight;
     private int cost;
     private int damage;
@@ -45,4 +45,6 @@ public class Ammunition {
     public void setProtection(int protection) {
         this.protection = protection;
     }
+
+    public abstract String getDefaultValue();
 }
